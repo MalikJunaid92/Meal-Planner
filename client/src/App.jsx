@@ -1,34 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from "react-router-dom"
+import { Suspense } from "react"
+import { AppProviders } from "./components/providers/app-providers"
+import { ErrorBoundary } from "./components/error-boundary"
+import HomePage from "./pages/HomePage"
+import LoginPage from "./pages/LoginPage"
+import SignupPage from "./pages/SignupPage"
+import DashboardPage from "./pages/DashboardPage"
+import RecipesPage from "./pages/RecipesPage"
+import PlannerPage from "./pages/PlannerPage"
+import GroceryPage from "./pages/GroceryPage"
+import LoadingSpinner from "./components/ui/loading-spinner"
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ErrorBoundary>
+      <Suspense fallback={<LoadingSpinner />}>
+        <AppProviders>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/recipes" element={<RecipesPage />} />
+            <Route path="/planner" element={<PlannerPage />} />
+            <Route path="/grocery" element={<GroceryPage />} />
+          </Routes>
+        </AppProviders>
+      </Suspense>
+    </ErrorBoundary>
   )
 }
 
